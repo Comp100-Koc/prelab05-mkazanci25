@@ -1,19 +1,23 @@
+def expand(s, l, r):
+    
+    while l >= 0 and r < len(s) and s[l] == s[r]:
+        l -= 1
+        r += 1
+    return s[l+1:r]
+
 def longest_palindromic_substring(s):
     """
     Given a string find the longest palindromic substring
     """
-    res = ""
-
-    def expand(l, r):
-        nonlocal res
-        while l >= 0 and r < len(s) and s[l] == s[r]:
-            if (r - l + 1) > len(res):
-                res = s[l:r+1]
-            l -= 1
-            r += 1
-
+    result = ""
     for i in range(len(s)):
-        expand(i, i)
-        expand(i, i + 1)
-
-    return res if len(res) >= 2 else ""
+        p1 = expand(s, i, i)
+        p2 = expand(s, i, i + 1)
+        
+        for p in (p1, p2):
+            if len(p) > len(result):
+                result = p
+    if len(result) >= 2:
+        return result 
+    else:
+        return""
